@@ -5,41 +5,43 @@ exports.createBlog = async (req, res) => {
 
     try {
 
-        const { title, content } = req.body
+        const { title, content } = req.body;
 
-        // Validation
         if (!title || !content) {
             return res.status(400).json({
                 success: false,
                 message: "Title and Content are required"
-            })
+            });
         }
 
-        // Create Blog
-        const newBlog = await Blog.create({
-  title,
-  content,
-  user: req.user.id
-});
+        let image = "";
 
-        // Response
+        if (req.file) {
+            image = req.file.filename;
+        }
+
+        const newBlog = await Blog.create({
+            title,
+            content,
+            image,
+            user: req.user.id
+        });
+
         res.status(201).json({
             success: true,
             message: "Blog created successfully",
             data: newBlog
-        })
+        });
 
     } catch (error) {
 
-        console.log(error)
-
         res.status(500).json({
             success: false,
-            message: "Internal Server Error",
-            error: error.message
-        })
+            message: error.message
+        });
     }
-}
+
+};
 
 exports.getBlogs = async (req, res) => {
 

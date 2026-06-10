@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middleware/multer");
 
 const {
   createBlog,
@@ -9,7 +10,12 @@ const {
 
 const authMiddleware = require("../middleware/auth");
 
-router.post("/add-blog", authMiddleware, createBlog);
+router.post(
+    "/add-blog",
+    authMiddleware,
+    upload.single("image"),
+    createBlog
+);
 router.get("/get-blog", authMiddleware, getBlogs);
 router.put("/like-blog/:id", authMiddleware, likeBlog);
 

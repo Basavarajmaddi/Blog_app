@@ -1,33 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
-      trim: true
     },
 
     content: {
       type: String,
-      required: true
+      required: true,
+    },
+
+    image: {
+      type: String,
+      default: "",
     },
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
 
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ]
+        ref: "User",
+      },
+    ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
